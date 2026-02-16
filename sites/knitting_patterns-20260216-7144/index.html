@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knitting Patterns - Free Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header h1 { color: #333; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0; }
+        .module { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .module.unlocked { background: #e8f5e9; border-left: 5px solid #4caf50; }
+        .module h2 { color: #444; margin-bottom: 15px; }
+        .module p { color: #666; margin-bottom: 20px; }
+        .price { font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 15px; }
+        .buy-btn { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; }
+        .buy-btn:hover { background: #2980b9; }
+        .buy-btn.unlocked { background: #4caf50; cursor: default; }
+        .buy-btn.unlocked:hover { background: #4caf50; }
+        .wallet { background: #ecf0f1; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        .wallet-address { font-family: monospace; background: white; padding: 10px; border-radius: 5px; margin: 10px 0; word-break: break-all; }
+        .status { margin-top: 20px; padding: 10px; border-radius: 5px; display: none; }
+        .status.success { background: #d4edda; color: #155724; display: block; }
+        .status.error { background: #f8d7da; color: #721c24; display: block; }
+        .status.info { background: #d1ecf1; color: #0c5460; display: block; }
+        
+        <div style="font-size: 10px; color: #666; margin-top: 30px; padding: 10px; border-top: 1px solid #eee; text-align: center;">
+            This site is for informational purposes only. Not financial advice. 
+            Templates are digital products - no refunds after download.
+            &copy; 2026 All rights reserved.
+        </div>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Knitting Patterns Tools</h1>
+            <p>Free tools and templates to help you get started</p>
+        </div>
+        
+        <div id="statusMessage" class="status info">Loading payment status...</div>
+        
+        <div class="grid" id="modules"></div>
+        
+        <div class="wallet">
+            <h3>Support the project</h3>
+            <p>Send USDT (TRC20) to unlock modules:</p>
+            <div class="wallet-address">TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7</div>
+            <p style="color: #7f8c8d;">5 USDT per module • Automatic unlock</p>
+            <p><small>After sending, refresh the page or wait 30 seconds</small></p>
+        </div>
+    </div>
+    
+    <script>
+        const modules = [
+  {
+    "type": "calculator",
+    "title": "Calculator for knitting patterns",
+    "content": "Generated: Write a short description for a calculator tool about knitting patterns. 2-3 sentences.",
+    "price": 5,
+    "wallet": "TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7"
+  },
+  {
+    "type": "planner",
+    "title": "Planner for knitting patterns",
+    "content": "Generated: Write a short description for a planner tool about knitting patterns.",
+    "price": 5,
+    "wallet": "TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7"
+  },
+  {
+    "type": "generator",
+    "title": "Generator for knitting patterns",
+    "content": "Generated: Write a short description for a generator tool about knitting patterns.",
+    "price": 5,
+    "wallet": "TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7"
+  },
+  {
+    "type": "checklist",
+    "title": "Checklist for knitting patterns",
+    "content": "Generated: Create a checklist of 5 items for knitting patterns.",
+    "price": 5,
+    "wallet": "TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7"
+  },
+  {
+    "type": "tracker",
+    "title": "Tracker for knitting patterns",
+    "content": "Generated: Write a short description for a tracker tool about knitting patterns.",
+    "price": 5,
+    "wallet": "TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7"
+  }
+];
+        const siteName = "knitting_patterns-20260216-7144";
+        const container = document.getElementById('modules');
+        const statusDiv = document.getElementById('statusMessage');
+        
+        let unlockedModules = [];
+        
+        // Загружаем статус разблокировки с сервера
+        async function loadUnlockStatus() {
+            try {
+                statusDiv.textContent = 'Checking payment status...';
+                statusDiv.className = 'status info';
+                
+                // Пытаемся загрузить unlocked.json из той же папки
+                const response = await fetch('unlocked.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    unlockedModules = data.unlocked || [];
+                    statusDiv.textContent = `✅ ${unlockedModules.length} module(s) unlocked. Thank you for your support!`;
+                    statusDiv.className = 'status success';
+                } else {
+                    // Файла нет - значит ничего не куплено
+                    unlockedModules = [];
+                    statusDiv.style.display = 'none';
+                }
+            } catch (error) {
+                // Ошибка загрузки (файла нет или сетевые проблемы)
+                unlockedModules = [];
+                statusDiv.style.display = 'none';
+            }
+            
+            renderModules();
+        }
+        
+        function renderModules() {
+            container.innerHTML = '';
+            
+            modules.forEach((module, index) => {
+                const isUnlocked = unlockedModules.includes(index);
+                const div = document.createElement('div');
+                div.className = `module ${isUnlocked ? 'unlocked' : ''}`;
+                
+                let buttonHtml = '';
+                if (isUnlocked) {
+                    buttonHtml = `<button class="buy-btn unlocked" disabled>✓ UNLOCKED</button>`;
+                } else {
+                    buttonHtml = `<button class="buy-btn" onclick="unlock(${index})">Unlock Now ($${module.price} USDT)</button>`;
+                }
+                
+                div.innerHTML = `
+                    <h2>${module.title}</h2>
+                    <p>${module.content}</p>
+                    <div class="price">$${module.price} USDT</div>
+                    ${buttonHtml}
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function unlock(index) {
+            const wallet = "TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7";
+            const amount = modules[index].price;
+            
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = `
+                <strong>⏳ Payment required</strong><br>
+                Send <strong>${amount} USDT (TRC20)</strong> to:<br>
+                <code style="font-size: 14px; user-select: all;">${wallet}</code><br>
+                <small>After sending, wait 30 seconds and refresh the page</small>
+            `;
+            
+            // Копируем адрес в буфер обмена
+            navigator.clipboard?.writeText(wallet).then(() => {
+                statusDiv.innerHTML += '<br><small>✅ Address copied to clipboard</small>';
+            }).catch(() => {});
+            
+            // Начинаем проверку платежа
+            checkPayment(index);
+        }
+        
+        function checkPayment(moduleIndex) {
+            statusDiv.innerHTML += '<br>Checking for payment... ⏳';
+            
+            // Каждые 10 секунд перезагружаем статус
+            const interval = setInterval(async () => {
+                try {
+                    const response = await fetch('unlocked.json?' + new Date().getTime()); // Кеш не используем
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.unlocked && data.unlocked.includes(moduleIndex)) {
+                            clearInterval(interval);
+                            statusDiv.className = 'status success';
+                            statusDiv.innerHTML = '✅ Payment confirmed! Refreshing page...';
+                            setTimeout(() => location.reload(), 2000);
+                        }
+                    }
+                } catch (e) {}
+            }, 10000);
+            
+            // Остановить проверку через 5 минут
+            setTimeout(() => clearInterval(interval), 300000);
+        }
+        
+        // Запускаем загрузку статуса при загрузке страницы
+        loadUnlockStatus();
+    </script>
+</body>
+</html>
