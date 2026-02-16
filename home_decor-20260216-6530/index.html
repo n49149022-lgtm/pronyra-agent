@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Decor - Free Tools & Templates</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 0;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 60px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        .hero p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .module-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .module-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 30px;
+        }
+        .module-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        .module-content {
+            color: #475569;
+            margin-bottom: 20px;
+        }
+        .module-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 15px;
+        }
+        .buy-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .buy-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* Payment section */
+        .payment-section {
+            background: white;
+            border-radius: 40px;
+            padding: 60px 40px;
+            margin: 60px 0;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        .wallet {
+            background: #0f172a;
+            color: #3b82f6;
+            padding: 20px 30px;
+            border-radius: 60px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            display: inline-block;
+            margin: 20px 0;
+            border: 2px solid #3b82f6;
+        }
+        
+        /* Footer with disclaimer */
+        .footer {
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #64748b;
+        }
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+        .legal-disclaimer {
+            text-align: center;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #94a3b8;
+        }
+        .copyright {
+            margin-top: 30px;
+            text-align: center;
+            color: #94a3b8;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero { padding: 60px 20px; }
+            .modules-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <span class="logo">Home Decor Tools</span>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Home Decor</h1>
+            <p>Free tools and templates to help you get things done</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Modules will be dynamically inserted here by JavaScript -->
+        <div id="modules-container" class="modules-grid"></div>
+        
+        <div class="payment-section">
+            <h2>Support This Project 💖</h2>
+            <p>Unlock premium features with a one-time payment</p>
+            <div class="wallet">TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7</div>
+            <p style="color: #64748b; font-size: 14px;">USDT (TRC20) • 5 USDT per module • Instant unlock</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+        
+        <div class="legal-disclaimer">
+            <strong>Disclaimer:</strong> This website is for informational purposes only. 
+            All templates and tools are provided "as is" without warranty of any kind. 
+            Results may vary. Digital products are non-refundable. By using this site, 
+            you agree to our terms. Not financial advice. 18+ only.
+        </div>
+        
+        <div class="copyright">
+            © February 16, 2026 Home Decor. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Modules data passed from agent
+        const modules = [
+  {
+    "type": "calculator",
+    "title": "Calculator for home decor",
+    "content": "Sample calculator content",
+    "price": 5
+  },
+  {
+    "type": "planner",
+    "title": "Planner for home decor",
+    "content": "Sample planner content",
+    "price": 5
+  },
+  {
+    "type": "generator",
+    "title": "Generator for home decor",
+    "content": "Sample generator content",
+    "price": 5
+  },
+  {
+    "type": "checklist",
+    "title": "Checklist for home decor",
+    "content": "Sample checklist content",
+    "price": 5
+  },
+  {
+    "type": "tracker",
+    "title": "Tracker for home decor",
+    "content": "Sample tracker content",
+    "price": 5
+  }
+];
+        
+        // Render modules
+        const container = document.getElementById('modules-container');
+        
+        modules.forEach((module, index) => {
+            const card = document.createElement('div');
+            card.className = 'module-card';
+            
+            const icons = ['📊', '📝', '⚙️', '✅', '📈'];
+            
+            card.innerHTML = `
+                <div class="module-icon">${icons[index % icons.length]}</div>
+                <h3 class="module-title">${module.title}</h3>
+                <div class="module-content">${module.content}</div>
+                <div class="module-price">$${module.price} USDT</div>
+                <button class="buy-btn" onclick="unlockModule(${index})">Unlock Now</button>
+            `;
+            
+            container.appendChild(card);
+        });
+        
+        function unlockModule(index) {
+            const wallet = 'TFta1g9CYf3S538HCYN9zCuuCEMNYxF1D7';
+            const amount = modules[index].price;
+            
+            // Show payment instructions
+            alert(`Send ${amount} USDT (TRC20) to:\n${wallet}\n\nAfter payment, refresh the page to access the full template.`);
+            
+            // Here will be TRON payment check integration
+            console.log(`Module ${index} unlock requested`);
+        }
+        
+        // Check for payments periodically
+        setInterval(() => {
+            // Will be implemented with TronGrid API
+            console.log('Checking for payments...');
+        }, 30000);
+    </script>
+</body>
+</html>
